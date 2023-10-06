@@ -1,5 +1,12 @@
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import util.CSVReader;
+import model.Candidato;
+import model.Partido;
+import parser.CandidatoParser;
+import parser.PartidoParser;
 
 public class Main {
     public static void main(String[] args) {
@@ -15,7 +22,19 @@ public class Main {
 
         CSVReader csvReaderCandidatos = new CSVReader(caminhoArquivoCandidatos);
         List<String[]> csvCandidatos = csvReaderCandidatos.getLines();
-        int i = 0;
+
+        Set<Partido> partidos = new HashSet<Partido>();
+        Set<Candidato> candidatos = new HashSet<Candidato>();
+
+        CandidatoParser candidatoParser = new CandidatoParser();
+        PartidoParser partidoParser = new PartidoParser();
+
+        for (String[] linha : csvCandidatos) {
+            Partido partido = partidoParser.parser(linha[27], linha[28], linha[30]);
+            partidos.add(partido);
+            Candidato candidato = candidatoParser.parser(linha[16], linha[18], partido, linha[42], linha[56],
+                    linha[67]);
+        }
 
         // CD_CARGO | 13
         // CD_SITUACAO_CANDIDATO_TOT | 68
@@ -28,24 +47,6 @@ public class Main {
         // CD_SIT_TOT_TURNO | 56
         // CD_GENERO | 45
         // NM_TIPO_DESTINACAO_VOTOS | 67
-
-        System.out.println(csvCandidatos.get(0)[13]);
-        System.out.println(csvCandidatos.get(0)[68]);
-        System.out.println(csvCandidatos.get(0)[16]);
-        System.out.println(csvCandidatos.get(0)[18]);
-        System.out.println(csvCandidatos.get(0)[27]);
-        System.out.println(csvCandidatos.get(0)[28]);
-        System.out.println(csvCandidatos.get(0)[30]);
-        System.out.println(csvCandidatos.get(0)[42]);
-        System.out.println(csvCandidatos.get(0)[56]);
-        System.out.println(csvCandidatos.get(0)[45]);
-        System.out.println(csvCandidatos.get(0)[67]);
-
-        for (String[] string : csvCandidatos) {
-            System.out.printf("%-10s %-10s %-10s %-30s %-10s %-15s %-15s %-10s %-10s %-10s %-10s\n", string[13],
-                    string[68], string[16], string[18], string[27], string[28], string[30], string[42], string[56],
-                    string[45], string[67]);
-        }
 
     }
 }
