@@ -1,19 +1,22 @@
-package model;
+package entidade;
 
 import java.time.LocalDate;
+import enums.Eleito;
+import enums.Genero;
+import enums.TipoDestinoVotos;;
 
 public class Candidato {
-    private int numero;
-    private String nome; // nome do candidato
+    private final int numero;
+    private final String nome; // nome do candidato
     private Partido partido; // partido do candidato
     private int numVotos;
-    private LocalDate dtNascimento;
-    private boolean eleito; /// eleito ou nao eleito
-    private int genero; // feminino ou masculino
-    private String tipoDestinoDosVotos; // se no for valido os votos serao nulos
+    private final LocalDate dtNascimento;
+    private Eleito eleito; /// eleito ou nao eleito
+    private Genero genero; // feminino ou masculino
+    private TipoDestinoVotos tipoDestinoDosVotos; // se no for valido os votos serao nulos
 
-    public Candidato(int numero, String nome, Partido partido, LocalDate dtNascimento, boolean eleito,
-            int genero, String tipoDestinoVotos) {
+    public Candidato(int numero, String nome, Partido partido, LocalDate dtNascimento, Eleito eleito,
+            Genero genero, TipoDestinoVotos tipoDestinoVotos) {
         this.numero = numero;
         this.nome = nome;
         this.partido = partido;
@@ -45,15 +48,15 @@ public class Candidato {
         return dtNascimento;
     }
 
-    public boolean isEleito() {
+    public Eleito getEleito() {
         return eleito;
     }
 
-    public int getGenero() {
+    public Genero getGenero() {
         return genero;
     }
 
-    public String getTipoDestinoDosVotos() {
+    public TipoDestinoVotos getTipoDestinoDosVotos() {
         return tipoDestinoDosVotos;
     }
 
