@@ -21,6 +21,9 @@ public class Main {
         CSVReader csvReaderCandidatos = new CSVReader(caminhoArquivoCandidatos);
         List<String[]> csvCandidatos = csvReaderCandidatos.getLines();
 
+        for (String[] linha : csvCandidatos) {
+            System.out.println(linha[67]);
+        }
         // CD_CARGO | 13
         // CD_SITUACAO_CANDIDATO_TOT | 68
         // NR_CANDIDATO | 16
