@@ -10,16 +10,16 @@ public class Eleicao {
     Map<Integer, Candidato> candidatos;
     Map<Integer, Partido> partidos;
 
-    public Eleicao(TreeMap<Integer, Candidato> candidatos, TreeMap<Integer, Partido> partidos) {
+    public Eleicao(Map<Integer, Candidato> candidatos, Map<Integer, Partido> partidos) {
         this.candidatos = candidatos;
         this.partidos = partidos;
     }
 
-    public TreeMap<Integer, Candidato> getCandidatos() {
+    public Map<Integer, Candidato> getCandidatos() {
         return new TreeMap<>(candidatos);
     }
 
-    public TreeMap<Integer, Partido> getPartidos() {
+    public Map<Integer, Partido> getPartidos() {
         return new TreeMap<>(partidos);
     }
 }

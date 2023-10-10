@@ -7,14 +7,16 @@ public class Partido {
     private final int numero;
     private final String sigla;
     private final int federacao;
+    private int votosLegenda;
     private int votosNominais;
     private Set<Candidato> candidatos = new HashSet<Candidato>();
 
-    public Partido(int numero, String sigla, int federacao, int votosNominais) {
+    public Partido(int numero, String sigla, int federacao) {
         this.numero = numero;
         this.sigla = sigla;
         this.federacao = federacao;
-        this.votosNominais = votosNominais;
+        this.votosNominais = 0;
+        this.votosLegenda = 0;
     }
 
     public int getNumero() {
@@ -36,9 +38,21 @@ public class Partido {
     public int getVotosNominais() {
         return votosNominais;
     }
+    
+    public int getVotosLegenda() {
+        return votosLegenda;
+    }
 
     public void addCandidato(Candidato candidato) {
         candidatos.add(candidato);
+    }
+
+    public void addVotosNominais(int votosNominais) {
+        this.votosNominais += votosNominais;
+    }
+
+    public void addVotosLegenda(int votosLegenda) {
+        this.votosLegenda += votosLegenda;
     }
 
 }

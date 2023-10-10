@@ -7,11 +7,7 @@ import java.util.List;
 
 public class CSVReader {
     private String path;
-
-    public CSVReader(String path) {
-        this.path = path;
-    }
-
+    
     public List<String[]> getLines() {
         List<String[]> lines = new ArrayList<String[]>();
         try {
@@ -29,5 +25,9 @@ public class CSVReader {
         }
 
         return lines;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }

@@ -4,7 +4,7 @@ public enum TipoDestinoVotos {
     VALIDO("Válido"), VALIDO_LEGENDA("Válido (legenda)"), NULO("#NULO#"), NULO_TECNICO("Nulo técnico"),
     ANULADO("Anulado"), ANULADO_SUB_JUDICE("Anulado sub judice");
 
-    private String tipoDestinoVotos;
+    private final String tipoDestinoVotos;
 
     private TipoDestinoVotos(String tipoDestinoVotos) {
         this.tipoDestinoVotos = tipoDestinoVotos;
@@ -12,6 +12,15 @@ public enum TipoDestinoVotos {
 
     public String getTipoDestinoVotos() {
         return tipoDestinoVotos;
+    }
+
+    public TipoDestinoVotos getTipoDestinoVotos(String tipoDestinoVotos){
+        for (TipoDestinoVotos t: TipoDestinoVotos.values()){
+            if (t.getTipoDestinoVotos().equals(tipoDestinoVotos)){
+                return t;
+            }
+        }
+        return null;
     }
 
 }
