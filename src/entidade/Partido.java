@@ -38,7 +38,7 @@ public class Partido {
     public int getVotosNominais() {
         return votosNominais;
     }
-    
+
     public int getVotosLegenda() {
         return votosLegenda;
     }
@@ -53,6 +53,12 @@ public class Partido {
 
     public void addVotosLegenda(int votosLegenda) {
         this.votosLegenda += votosLegenda;
+    }
+
+    @Override
+    public String toString() {
+        return "Partido [numero=" + numero + ", sigla=" + sigla + ", federacao=" + federacao + ", votosLegenda="
+                + votosLegenda + ", votosNominais=" + votosNominais + ", candidatos=" + candidatos.size() + "]";
     }
 
 }

@@ -7,7 +7,6 @@ import enums.Eleito;
 import enums.Genero;
 import enums.TipoDestinoVotos;
 
-
 public class Candidato {
     private int numero;
     private String nome;
@@ -20,8 +19,8 @@ public class Candidato {
     private int votosNominais;
 
     public Candidato(int numero, String nome, Partido partido, Deferido sitDeferido, Eleito sitEleito, Genero genero,
-        TipoDestinoVotos tipoDestinoVotos, LocalDate dataNascimento){
-        
+            TipoDestinoVotos tipoDestinoVotos, LocalDate dataNascimento) {
+
         this.numero = numero;
         this.nome = nome;
         this.partido = partido;
@@ -31,7 +30,7 @@ public class Candidato {
         this.tipoDestinoVotos = tipoDestinoVotos;
         this.dataNascimento = dataNascimento;
         this.votosNominais = 0;
-        
+
         partido.addCandidato(this);
     }
 
@@ -73,6 +72,13 @@ public class Candidato {
 
     public void addVotosNominais(int votosNominais) {
         this.votosNominais += votosNominais;
+    }
+
+    @Override
+    public String toString() {
+        return "Candidato [dataNascimento=" + dataNascimento + ", genero=" + genero + ", nome=" + nome + ", numero="
+                + numero + ", partido=" + partido.getNumero() + ", sitDeferido=" + sitDeferido + ", sitEleito="
+                + sitEleito + ", tipoDestinoVotos=" + tipoDestinoVotos + ", votosNominais=" + votosNominais + "]";
     }
 
 }

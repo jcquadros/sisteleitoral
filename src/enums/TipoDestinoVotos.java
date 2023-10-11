@@ -14,9 +14,9 @@ public enum TipoDestinoVotos {
         return tipoDestinoVotos;
     }
 
-    public TipoDestinoVotos getTipoDestinoVotos(String tipoDestinoVotos){
-        for (TipoDestinoVotos t: TipoDestinoVotos.values()){
-            if (t.getTipoDestinoVotos().equals(tipoDestinoVotos)){
+    public static TipoDestinoVotos getTipoDestinoVotos(String tipoDestinoVotos) {
+        for (TipoDestinoVotos t : TipoDestinoVotos.values()) {
+            if (t.getTipoDestinoVotos().equals(tipoDestinoVotos)) {
                 return t;
             }
         }

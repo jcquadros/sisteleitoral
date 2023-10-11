@@ -1,7 +1,7 @@
 package enums;
 
 public enum Cargo {
-    DEP_FEDERAL (6), DEP_ESTADUAL (7);
+    DEP_FEDERAL(6), DEP_ESTADUAL(7);
 
     private final int cargo;
 
@@ -13,11 +13,21 @@ public enum Cargo {
         return cargo;
     }
 
-    public Cargo getCargo(int cargo) {
-        if(cargo == 6){
+    public static Cargo getCargo(int cargo) {
+        if (cargo == 6) {
             return Cargo.DEP_FEDERAL;
-        }else{
+        } else {
             return Cargo.DEP_ESTADUAL;
+        }
+    }
+
+    public static Cargo getCargo(String cargo) {
+        if (cargo.equals("--federal")) {
+            return Cargo.DEP_FEDERAL;
+        } else if (cargo.equals("--estadual")) {
+            return Cargo.DEP_ESTADUAL;
+        } else {
+            return null; // exception
         }
     }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 public class CSVReader {
     private String path;
-    
+
     public List<String[]> getLines() {
         List<String[]> lines = new ArrayList<String[]>();
         try {

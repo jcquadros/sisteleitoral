@@ -1,7 +1,7 @@
 package enums;
 
 public enum Genero {
-    FEMININO (4), MASCULINO (2);
+    FEMININO(4), MASCULINO(2);
 
     private final int genero;
 
@@ -13,14 +13,12 @@ public enum Genero {
         return genero;
     }
 
-    public Genero getGenero(int genero) {
-        if(genero == 4){
+    public static Genero getGenero(int genero) {
+        if (genero == 4) {
             return Genero.FEMININO;
-        }else{
+        } else {
             return Genero.MASCULINO;
         }
     }
 
 }
-
-
