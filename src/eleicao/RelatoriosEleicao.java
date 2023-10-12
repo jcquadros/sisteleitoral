@@ -1,11 +1,7 @@
 package eleicao;
 
-import java.text.NumberFormat;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import entidade.Candidato;
