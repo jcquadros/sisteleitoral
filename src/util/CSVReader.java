@@ -14,13 +14,13 @@ public class CSVReader {
             FileInputStream f = new FileInputStream(this.path);
             Scanner scanner = new Scanner(f, "ISO-8859-1");
 
-            while (scanner.hasNextLine()){
+            while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 Scanner lineScanner = new Scanner(line);
                 lineScanner.useDelimiter(";");
 
                 List<String> columns = new ArrayList<String>();
-                while (lineScanner.hasNext()){
+                while (lineScanner.hasNext()) {
                     String column = lineScanner.next();
                     column = column.replace("\"", "");
                     columns.add(column);

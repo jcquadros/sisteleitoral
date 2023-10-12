@@ -1,13 +1,15 @@
 package entidade;
 
+import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.util.Locale;
 
 import enums.Deferido;
 import enums.Eleito;
 import enums.Genero;
 import enums.TipoDestinoVotos;
 
-public class Candidato {
+public class Candidato implements Comparable<Candidato> {
     private int numero;
     private String nome;
     private Partido partido;
@@ -76,9 +78,20 @@ public class Candidato {
 
     @Override
     public String toString() {
-        return "Candidato [dataNascimento=" + dataNascimento + ", genero=" + genero + ", nome=" + nome + ", numero="
-                + numero + ", partido=" + partido.getNumero() + ", sitDeferido=" + sitDeferido + ", sitEleito="
-                + sitEleito + ", tipoDestinoVotos=" + tipoDestinoVotos + ", votosNominais=" + votosNominais + "]";
+        NumberFormat nf = NumberFormat.getInstance(new Locale("pt", "BR"));
+        String response = (partido.getFederacao() != -1) ? "*" : "";
+        response += nome + " (" + partido.getSigla() + ", " + nf.format(votosNominais) + " votos)\n";
+        return response;
     }
 
+    @Override
+    public int compareTo(Candidato o) {
+
+        if (this.getVotosNominais() != o.getVotosNominais())
+            return o.getVotosNominais() - this.getVotosNominais();
+        if (this.getDataNascimento() != null && o.getDataNascimento() != null)
+            return this.getDataNascimento().compareTo(o.getDataNascimento());
+        return 0;
+
+    }
 }

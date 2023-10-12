@@ -1,15 +1,13 @@
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
+
 import java.util.Map;
-import java.util.Set;
 
 import eleicao.Eleicao;
 import eleicao.LeitorEleicao;
+import eleicao.LeitorVotos;
+import eleicao.RelatoriosEleicao;
 import entidade.Candidato;
 import entidade.Partido;
-import util.CSVReader;
-
+import entidade.Voto;
 
 public class Main {
     public static void main(String[] args) {
@@ -20,11 +18,11 @@ public class Main {
         }
 
         int cargo;
-        if(args[0].equals("--estadual")){
+        if (args[0].equals("--estadual")) {
             cargo = 7;
-        }else if (args[0].equals("--federal")){
+        } else if (args[0].equals("--federal")) {
             cargo = 6;
-        }else{
+        } else {
             System.out.println("Opção de cargo inválida");
             return;
         }
@@ -39,13 +37,15 @@ public class Main {
         Map<Integer, Candidato> candidatos = eleicao.getCandidatos();
         Map<Integer, Partido> partidos = eleicao.getPartidos();
 
-        for (Candidato candidato : candidatos.values()) {
-            System.out.println(candidato);
-        }
+        LeitorVotos leitorVotos = new LeitorVotos(caminhoArquivoVotacao);
+        Map<Integer, Voto> votos = leitorVotos.criarVotacao(cargo);
+        eleicao.processaVotacao(votos);
 
-        for (Partido partido : partidos.values()) {
-           System.out.println(partido);
-        }
-
+        RelatoriosEleicao r = new RelatoriosEleicao();
+        System.out.println(r.relatorioNumeroDeVagas(candidatos));
+        System.out.println(r.relatorioCandidatosEleitos(candidatos, cargo));
+        System.out.println(r.relatorioCandidatosMaisVotados(candidatos));
+        System.out.println(r.relatorioCandidatosNaoEleitosEleitosMajoritariamente(candidatos));
+        System.out.println(r.relatorioCandidatosEleitosNaoEleitosMajoritariamente(candidatos));
     }
 }
