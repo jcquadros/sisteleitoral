@@ -5,7 +5,6 @@ import java.util.TreeMap;
 
 import entidade.Candidato;
 import entidade.Partido;
-import entidade.Voto;
 import enums.Deferido;
 import enums.TipoDestinoVotos;
 
@@ -26,26 +25,32 @@ public class Eleicao {
         return new TreeMap<>(partidos);
     }
 
-    public void processaVotacao(Map<Integer, Voto> votos) {
-        for (Voto voto : votos.values()) {
-            int numeroCandidato = voto.getNumeroCandidato();
-            int quantidadeVotos = voto.getQuantidadeVotos();
+    public void processaVotacao(Map<Integer, Integer> votos) {
+        for (Map.Entry<Integer, Integer> entry : votos.entrySet()) {
+            int numero = entry.getKey();
+            int numeroVotos = entry.getValue();
 
-            if (candidatos.containsKey(numeroCandidato)) {
-                Candidato candidato = candidatos.get(numeroCandidato);
+            if (candidatos.containsKey(numero)) {
+                Candidato candidato = candidatos.get(numero);
                 if (candidato.getTipoDestinoVotos() == TipoDestinoVotos.VALIDO_LEGENDA) {
-                    candidato.getPartido().addVotosLegenda(quantidadeVotos);
+                    // essa opcao o candidato nao recebe votos nominais? ou recebe?
+                    candidato.getPartido().addVotosLegenda(numeroVotos);
                 } else if (candidato.getSitDeferido() == Deferido.DEFERIDO) {
-                    candidato.addVotosNominais(quantidadeVotos);
+                    candidato.addVotosNominais(numeroVotos);
+                    candidato.getPartido().addVotosNominais(numeroVotos);
                 }
-            } else if (partidos.containsKey(numeroCandidato)) {
-                Partido partido = partidos.get(numeroCandidato);
-                partido.addVotosLegenda(quantidadeVotos);
+                candidato.addVotosNominais(numeroVotos); // set ou add?
+
+            } else if (partidos.containsKey(numero)) {
+                Partido partido = partidos.get(numero);
+                partido.addVotosLegenda(numeroVotos);
+
             } else {
                 System.out.println("Candidato ou Partido não encontrado");
             }
 
         }
+
     }
 
 }

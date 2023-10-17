@@ -72,6 +72,10 @@ public class Candidato implements Comparable<Candidato> {
         return votosNominais;
     }
 
+    public void setVotosNominais(int votosNominais) {
+        this.votosNominais = votosNominais;
+    }
+
     public void addVotosNominais(int votosNominais) {
         this.votosNominais += votosNominais;
     }
