@@ -1,4 +1,4 @@
-package comparadores;
+package relatorios.comparadores;
 
 import entidade.Candidato;
 import java.util.Comparator;

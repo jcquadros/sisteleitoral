@@ -4,10 +4,10 @@ import java.util.Map;
 import eleicao.Eleicao;
 import eleicao.LeitorEleicao;
 import eleicao.LeitorVotos;
-import eleicao.RelatoriosEleicao;
 import entidade.Candidato;
 import entidade.Partido;
 import entidade.Voto;
+import relatorios.RelatoriosEleicao;
 
 public class Main {
     public static void main(String[] args) {
@@ -37,15 +37,15 @@ public class Main {
         Map<Integer, Candidato> candidatos = eleicao.getCandidatos();
         Map<Integer, Partido> partidos = eleicao.getPartidos();
 
-        LeitorVotos leitorVotos = new LeitorVotos(caminhoArquivoVotacao);
-        Map<Integer, Voto> votos = leitorVotos.criarVotacao(cargo);
-        eleicao.processaVotacao(votos);
+        // LeitorVotos leitorVotos = new LeitorVotos(caminhoArquivoVotacao);
+        // Map<Integer, Voto> votos = leitorVotos.criarVotacao(cargo);
+        // eleicao.processaVotacao(votos);
 
-        RelatoriosEleicao r = new RelatoriosEleicao();
-        System.out.println(r.relatorioNumeroDeVagas(candidatos));
-        System.out.println(r.relatorioCandidatosEleitos(candidatos, cargo));
-        System.out.println(r.relatorioCandidatosMaisVotados(candidatos));
-        System.out.println(r.relatorioCandidatosNaoEleitosEleitosMajoritariamente(candidatos));
-        System.out.println(r.relatorioCandidatosEleitosNaoEleitosMajoritariamente(candidatos));
+        // RelatoriosEleicao r = new RelatoriosEleicao();
+        // System.out.println(r.relatorioNumeroDeVagas(candidatos));
+        // System.out.println(r.relatorioCandidatosEleitos(candidatos, cargo));
+        // System.out.println(r.relatorioCandidatosMaisVotados(candidatos));
+        // System.out.println(r.relatorioCandidatosNaoEleitosEleitosMajoritariamente(candidatos));
+        // System.out.println(r.relatorioCandidatosEleitosNaoEleitosMajoritariamente(candidatos));
     }
 }

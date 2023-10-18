@@ -1,4 +1,4 @@
-package eleicao;
+package relatorios;
 
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -8,10 +8,10 @@ import java.util.TreeMap;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import comparadores.PartidoComparador;
 import entidade.Candidato;
 import entidade.Partido;
 import enums.Eleito;
+import relatorios.comparadores.PartidoComparador;
 
 public class RelatoriosEleicao {
     private List<Candidato> candidatos;

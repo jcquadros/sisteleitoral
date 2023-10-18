@@ -1,6 +1,7 @@
 package eleicao;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
@@ -24,7 +25,7 @@ public class LeitorEleicao {
         this.caminhoVotos = caminhoVotos;
     }
 
-    public Eleicao criaEleicao() {
+    public Eleicao criaEleicao()  {
         Map<Integer, Partido> partidos = new TreeMap<Integer, Partido>();
         Map<Integer, Candidato> candidatos = new TreeMap<Integer, Candidato>();
 
@@ -35,6 +36,7 @@ public class LeitorEleicao {
             scanner.nextLine(); // ignora primeira linha
             while (scanner.hasNextLine()) {
                 String linha[] = scanner.nextLine().split(";");
+                // trim e substrim
                 linha[13] = linha[13].replace("\"", "");
                 linha[27] = linha[27].replace("\"", "");
                 linha[28] = linha[28].replace("\"", "");
@@ -77,9 +79,7 @@ public class LeitorEleicao {
             scanner.close();
         } catch (NumberFormatException e) {
             System.out.println("Erro ao converter um numero durante a criação da eleicao");
-        } catch (NullPointerException e) {
-            System.out.println("Erro ao tentar recuperar um valor nulo durante a criação da eleicao");
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.println("Erro ao ler o arquivo de candidatos");
         }
 
