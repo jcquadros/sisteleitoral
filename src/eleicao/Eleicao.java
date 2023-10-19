@@ -5,7 +5,6 @@ import java.util.TreeMap;
 
 import entidade.Candidato;
 import entidade.Partido;
-import enums.Deferido;
 import enums.TipoDestinoVotos;
 
 public class Eleicao {
@@ -33,13 +32,11 @@ public class Eleicao {
             if (candidatos.containsKey(numero)) {
                 Candidato candidato = candidatos.get(numero);
                 if (candidato.getTipoDestinoVotos() == TipoDestinoVotos.VALIDO_LEGENDA) {
-                    // essa opcao o candidato nao recebe votos nominais? ou recebe?
                     candidato.getPartido().addVotosLegenda(numeroVotos);
-                } else if (candidato.getSitDeferido() == Deferido.DEFERIDO) {
+                } else if (candidato.isDeferido()) {
                     candidato.addVotosNominais(numeroVotos);
                     candidato.getPartido().addVotosNominais(numeroVotos);
                 }
-                candidato.addVotosNominais(numeroVotos); // set ou add?
 
             } else if (partidos.containsKey(numero)) {
                 Partido partido = partidos.get(numero);

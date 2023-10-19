@@ -16,11 +16,14 @@ public class PartidoComparador implements Comparator<Partido> {
         if (candidatos1.size() == 0 || candidatos2.size() == 0)
             throw new RuntimeException("Partido sem candidatos");
 
-        Candidato candidato1 = candidatos1.stream().max(Comparable::compareTo).get();
-        Candidato candidato2 = candidatos2.stream().max(Comparable::compareTo).get();
+        Candidato candidato1 = candidatos1.stream().max(new CandidatoComparador()).get();
+        Candidato candidato2 = candidatos2.stream().max(new CandidatoComparador()).get();
 
-        if (candidato1.getVotosNominais() != candidato2.getVotosNominais())
+        if (candidato1.getVotosNominais() != candidato2.getVotosNominais()){
+
+            
             return candidato2.getVotosNominais() - candidato1.getVotosNominais();
+        }
 
         return o1.getNumero() - o2.getNumero();
     }

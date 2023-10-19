@@ -10,10 +10,8 @@ import java.util.TreeMap;
 
 import entidade.Candidato;
 import entidade.Partido;
-import enums.Deferido;
 import enums.Genero;
 import enums.TipoDestinoVotos;
-import enums.Eleito;
 
 public class LeitorEleicao {
     String caminhoCandidatos;
@@ -23,9 +21,10 @@ public class LeitorEleicao {
     public LeitorEleicao(String caminhoCandidatos, String caminhoVotos, int cargo) {
         this.caminhoCandidatos = caminhoCandidatos;
         this.caminhoVotos = caminhoVotos;
+        this.cargo = cargo;
     }
 
-    public Eleicao criaEleicao()  {
+    public Eleicao criarEleicao()  {
         Map<Integer, Partido> partidos = new TreeMap<Integer, Partido>();
         Map<Integer, Candidato> candidatos = new TreeMap<Integer, Candidato>();
 
@@ -50,19 +49,20 @@ public class LeitorEleicao {
                 linha[42] = linha[42].replace("\"", "");
 
                 if (cargo == Integer.parseInt(linha[13])) {
+                    // partido
                     int nPartido = Integer.parseInt(linha[27]);
                     String nomePartido = linha[28];
                     int nFedPartido = Integer.parseInt(linha[30]);
 
+                    // candidato
                     int nCandidato = Integer.parseInt(linha[16]);
                     String nomeCandidato = linha[18];
-                    Deferido sttsDefCandidato = Deferido.getDeferido(Integer.parseInt(linha[68]));
-                    Genero genCandidato = Genero.getGenero(Integer.parseInt(linha[45]));
-                    TipoDestinoVotos tipoDstVtCandidato = TipoDestinoVotos.getTipoDestinoVotos(linha[67]);
-                    Eleito eleitoCandidato = Eleito.getEleito(Integer.parseInt(linha[56]));
+                    boolean deferido = Integer.parseInt(linha[68]) == 2 || Integer.parseInt(linha[68]) == 16 ? true : false;
+                    boolean eleito = Integer.parseInt(linha[56]) == 2 || Integer.parseInt(linha[56]) == 3 ? true : false;
+                    Genero genero = Genero.getGenero(Integer.parseInt(linha[45]));
+                    TipoDestinoVotos tipoDstVts = TipoDestinoVotos.getTipoDestinoVotos(linha[67]);
 
-                    LocalDate dataNascCandidato = linha[42].equals("") ? null
-                            : LocalDate.parse(linha[42], DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                    LocalDate dataNasc = linha[42].equals("") ? null : LocalDate.parse(linha[42], DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
                     if (!partidos.containsKey(nPartido)) {
                         partidos.put(nPartido, new Partido(nPartido, nomePartido, nFedPartido));
@@ -70,9 +70,7 @@ public class LeitorEleicao {
 
                     Partido partido = (Partido) partidos.get(nPartido);
 
-                    candidatos.put(nCandidato, new Candidato(nCandidato, nomeCandidato, partido, sttsDefCandidato,
-                            eleitoCandidato, genCandidato, tipoDstVtCandidato, dataNascCandidato));
-
+                    candidatos.put(nCandidato, new Candidato(nCandidato, nomeCandidato, partido, deferido, eleito, genero, tipoDstVts, dataNasc));
                 }
 
             }

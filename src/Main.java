@@ -1,12 +1,12 @@
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 import eleicao.Eleicao;
 import eleicao.LeitorEleicao;
-import eleicao.LeitorVotos;
 import entidade.Candidato;
 import entidade.Partido;
-import entidade.Voto;
 import relatorios.RelatoriosEleicao;
 
 public class Main {
@@ -29,23 +29,28 @@ public class Main {
 
         String caminhoArquivoCandidatos = args[1];
         String caminhoArquivoVotacao = args[2];
-        String data = args[3];
-
-        LeitorEleicao leitorEleicao = new LeitorEleicao(caminhoArquivoCandidatos, caminhoArquivoVotacao);
-        Eleicao eleicao = leitorEleicao.criaEleicao(cargo);
-
+        LocalDate data = LocalDate.parse(args[3], DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        
+        LeitorEleicao leitorEleicao = new LeitorEleicao(caminhoArquivoCandidatos, caminhoArquivoVotacao, cargo);
+        Eleicao eleicao = leitorEleicao.criarEleicao();
+        
         Map<Integer, Candidato> candidatos = eleicao.getCandidatos();
         Map<Integer, Partido> partidos = eleicao.getPartidos();
+        
 
-        // LeitorVotos leitorVotos = new LeitorVotos(caminhoArquivoVotacao);
-        // Map<Integer, Voto> votos = leitorVotos.criarVotacao(cargo);
-        // eleicao.processaVotacao(votos);
+        eleicao.processaVotacao(leitorEleicao.criarVotacao());
+        
+        RelatoriosEleicao r = new RelatoriosEleicao(candidatos, partidos, cargo, data);
+        System.out.println(r.candidatosEleitos());
+        System.out.println(r.candidatosEleitosNaoEleitosMajoritariamente());
+        System.out.println(r.candidatosMaisVotados());
+        System.out.println(r.candidatosNaoEleitosEleitosMajoritariamente());
+        System.out.println(r.numeroDeVagasEleicao());
+        System.out.println(r.votacaoPartidos());
+        System.out.println(r.primeiroUltimoColocadosPorPartido());
+        System.out.println(r.eleitosPorFaixaEtaria());
+        System.out.println(r.eleitosPorGenero());
+        System.out.println(r.totalDeVotos());
 
-        // RelatoriosEleicao r = new RelatoriosEleicao();
-        // System.out.println(r.relatorioNumeroDeVagas(candidatos));
-        // System.out.println(r.relatorioCandidatosEleitos(candidatos, cargo));
-        // System.out.println(r.relatorioCandidatosMaisVotados(candidatos));
-        // System.out.println(r.relatorioCandidatosNaoEleitosEleitosMajoritariamente(candidatos));
-        // System.out.println(r.relatorioCandidatosEleitosNaoEleitosMajoritariamente(candidatos));
     }
 }
