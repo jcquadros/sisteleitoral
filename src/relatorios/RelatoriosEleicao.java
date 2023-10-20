@@ -69,14 +69,10 @@ public class RelatoriosEleicao {
         String response = "Teriam sido eleitos se a votação fosse majoritária, e não foram eleitos:\n";
         response += "(com sua posição no ranking de mais votados)\n";
         int numeroDeVagas = numeroDeVagas();
-        int vagasOcupadas = 0;
-        for(int i = 0; i < candidatos.size(); i++){
+        
+        for(int i = 0; i < numeroDeVagas; i++){
             if(!candidatos.get(i).isEleito()){
                 response += (i + 1) + " - " + candidatos.get(i);
-                vagasOcupadas++;
-            }
-            if (vagasOcupadas == numeroDeVagas){
-                break;
             }
         }
 
@@ -124,7 +120,7 @@ public class RelatoriosEleicao {
 
         for (Partido p : partidosOrdenados) {
             List<Candidato> candidatosPartido = p.getCandidatos().stream()
-                    .filter(candidato -> candidato.getVotosNominais() > 0)
+                    .filter(candidato -> candidato.isDeferido()) // TODO: a especificacao pode estar errada
                     .sorted(new CandidatoComparador())
                     .collect(Collectors.toList());
 
@@ -212,7 +208,7 @@ public class RelatoriosEleicao {
         }
 
         String response = "Eleitos, por gênero:\n";
-        response += "Feminino: " + eleitosFeminino + " ("
+        response += "Feminino:  " + eleitosFeminino + " ("
                 + nf.format( eleitosFeminino / totalEleitos) + ")\n";
         response += "Masculino: " + eleitosMasculino + " ("
                 + nf.format( eleitosMasculino / totalEleitos) + ")\n";

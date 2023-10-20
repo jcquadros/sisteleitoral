@@ -39,18 +39,24 @@ public class Main {
         
 
         eleicao.processaVotacao(leitorEleicao.criarVotacao());
-        
-        RelatoriosEleicao r = new RelatoriosEleicao(candidatos, partidos, cargo, data);
-        System.out.println(r.numeroDeVagasEleicao());
-        System.out.println(r.candidatosEleitos());
-        System.out.println(r.candidatosMaisVotados());
-        System.out.println(r.candidatosNaoEleitosEleitosMajoritariamente());
-        System.out.println(r.candidatosEleitosNaoEleitosMajoritariamente());
-        System.out.println(r.votacaoPartidos());
-        System.out.println(r.primeiroUltimoColocadosPorPartido());
-        System.out.println(r.eleitosPorFaixaEtaria());
-        System.out.println(r.eleitosPorGenero());
-        System.out.println(r.totalDeVotos());
+        int i = 0;
+        for (Partido p : partidos.values() ) {
+            System.out.println((++i) + " - " + p);
+        }
+
+        System.out.println(candidatos.get(900));
+
+        // RelatoriosEleicao r = new RelatoriosEleicao(candidatos, partidos, cargo, data);
+        // System.out.println(r.numeroDeVagasEleicao());
+        // System.out.println(r.candidatosEleitos());
+        // System.out.println(r.candidatosMaisVotados());
+        // System.out.println(r.candidatosNaoEleitosEleitosMajoritariamente());
+        // System.out.println(r.candidatosEleitosNaoEleitosMajoritariamente());
+        // System.out.println(r.votacaoPartidos());
+        // System.out.println(r.primeiroUltimoColocadosPorPartido());
+        // System.out.println(r.eleitosPorFaixaEtaria());
+        // System.out.println(r.eleitosPorGenero());
+        // System.out.println(r.totalDeVotos());
 
     }
 }
