@@ -46,7 +46,7 @@ public class RelatoriosEleicao {
 
         for (Candidato c : candidatosEleitos)
             response += (++i) + " - " + c;
-        
+
         return response;
     }
 
@@ -69,9 +69,9 @@ public class RelatoriosEleicao {
         String response = "Teriam sido eleitos se a votação fosse majoritária, e não foram eleitos:\n";
         response += "(com sua posição no ranking de mais votados)\n";
         int numeroDeVagas = numeroDeVagas();
-        
-        for(int i = 0; i < numeroDeVagas; i++){
-            if(!candidatos.get(i).isEleito()){
+
+        for (int i = 0; i < numeroDeVagas; i++) {
+            if (!candidatos.get(i).isEleito()) {
                 response += (i + 1) + " - " + candidatos.get(i);
             }
         }
@@ -82,9 +82,9 @@ public class RelatoriosEleicao {
     public String candidatosEleitosNaoEleitosMajoritariamente() {
         String response = "Eleitos, que se beneficiaram do sistema proporcional:\n";
         response += "(com sua posição no ranking de mais votados)\n";
-       
-        for(int i = numeroDeVagas(); i < candidatos.size(); i++ ){
-            if(candidatos.get(i).isEleito()){
+
+        for (int i = numeroDeVagas(); i < candidatos.size(); i++) {
+            if (candidatos.get(i).isEleito()) {
                 response += (i + 1) + " - " + candidatos.get(i);
             }
         }
@@ -101,10 +101,15 @@ public class RelatoriosEleicao {
                 candEleitos += c.isEleito() ? 1 : 0;
             }
 
-            response += (++i) + " - " + p.getSigla() + " - " + p.getNumero() + ", "
-                    + nf.format(p.getVotosLegenda() + p.getVotosNominais()) + " votos ("
-                    + nf.format(p.getVotosNominais()) + " nominais e "
-                    + nf.format(p.getVotosLegenda()) + " de legenda), " + candEleitos + " candidatos eleitos\n";
+            int totalDeVotosNom = p.getVotosNominais();
+            int totalDeVotosLeg = p.getVotosLegenda();
+            int totalDeVotos = totalDeVotosNom + totalDeVotosLeg;
+
+            response += (++i) + " - " + p.getSigla() + " - " + p.getNumero() + ", ";
+            response += nf.format(totalDeVotos) + (totalDeVotos > 1 ? " votos (" : " voto (");
+            response += nf.format(totalDeVotosNom) + (totalDeVotosNom > 1 ? " nominais e " : " nominal e ");
+            response += nf.format(totalDeVotosLeg) + (totalDeVotosLeg > 1 ? " de legenda), " : " de legenda), ");
+            response += candEleitos + (candEleitos > 1 ? " candidatos eleitos\n" : " candidato eleito\n");
         }
         return response;
     }
@@ -115,6 +120,7 @@ public class RelatoriosEleicao {
         int i = 0;
 
         List<Partido> partidosOrdenados = partidos.stream()
+                .filter(partido -> partido.getCandidatos().size() > 0)
                 .sorted(new PartidoComparador())
                 .collect(Collectors.toList());
 
@@ -129,10 +135,12 @@ public class RelatoriosEleicao {
 
             response += (++i) + " - " + p.getSigla() + " - " + p.getNumero() + ", ";
             Candidato c1 = (Candidato) candidatosPartido.stream().max(new CandidatoComparador()).get();
-            response += c1.getNome() + " (" + c1.getNumero() + ", " + nf.format(c1.getVotosNominais()) + " votos)";
+            response += c1.getNome() + " (" + c1.getNumero() + ", " + nf.format(c1.getVotosNominais())
+                    + (c1.getVotosNominais() > 1 ? " votos)" : " voto)");
+
             Candidato c2 = (Candidato) candidatosPartido.stream().min(new CandidatoComparador()).get();
             response += " / " + c2.getNome() + " (" + c2.getNumero() + ", " + nf.format(c2.getVotosNominais())
-                    + " votos)\n";
+                    + (c2.getVotosNominais() > 1 ? " votos)\n" : " voto)\n");
         }
         return response;
     }
@@ -169,15 +177,15 @@ public class RelatoriosEleicao {
 
         String response = "Eleitos, por faixa etária (na data da eleição):\n";
         response += "      Idade < 30: " + eleitosAte30 + " ("
-                + nf.format( eleitosAte30 / totalEleitos) + ")\n";
+                + nf.format(eleitosAte30 / totalEleitos) + ")\n";
         response += "30 <= Idade < 40: " + eleitos30a40 + " ("
-                + nf.format( eleitos30a40 / totalEleitos) + ")\n";
+                + nf.format(eleitos30a40 / totalEleitos) + ")\n";
         response += "40 <= Idade < 50: " + eleitos40a50 + " ("
-                + nf.format( eleitos40a50 / totalEleitos) + ")\n";
+                + nf.format(eleitos40a50 / totalEleitos) + ")\n";
         response += "50 <= Idade < 60: " + eleitos50a60 + " ("
-                + nf.format( eleitos50a60 / totalEleitos) + ")\n";
+                + nf.format(eleitos50a60 / totalEleitos) + ")\n";
         response += "60 <= Idade     : " + eleitos60mais + " ("
-                + nf.format( eleitos60mais / totalEleitos) + ")\n";
+                + nf.format(eleitos60mais / totalEleitos) + ")\n";
 
         return response;
     }
@@ -209,9 +217,9 @@ public class RelatoriosEleicao {
 
         String response = "Eleitos, por gênero:\n";
         response += "Feminino:  " + eleitosFeminino + " ("
-                + nf.format( eleitosFeminino / totalEleitos) + ")\n";
+                + nf.format(eleitosFeminino / totalEleitos) + ")\n";
         response += "Masculino: " + eleitosMasculino + " ("
-                + nf.format( eleitosMasculino / totalEleitos) + ")\n";
+                + nf.format(eleitosMasculino / totalEleitos) + ")\n";
         return response;
     }
 
