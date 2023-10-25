@@ -86,6 +86,9 @@ public class Candidato implements Comparable<Candidato> {
 
     @Override
     public int compareTo(Candidato o) {
+        
+        if (o == null)
+            throw new NullPointerException("Candidato não pode ser nulo");
 
         if (this.getVotosNominais() != o.getVotosNominais())
             return o.getVotosNominais() - this.getVotosNominais();

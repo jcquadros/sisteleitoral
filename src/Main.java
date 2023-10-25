@@ -5,6 +5,7 @@ import java.util.Map;
 
 import eleicao.Eleicao;
 import eleicao.LeitorEleicao;
+import eleicao.LeitorVotacao;
 import entidade.Candidato;
 import entidade.Partido;
 import relatorios.RelatoriosEleicao;
@@ -31,14 +32,14 @@ public class Main {
         String caminhoArquivoVotacao = args[2];
         LocalDate data = LocalDate.parse(args[3], DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         
-        LeitorEleicao leitorEleicao = new LeitorEleicao(caminhoArquivoCandidatos, caminhoArquivoVotacao, cargo);
-        Eleicao eleicao = leitorEleicao.criarEleicao();
+        
+        Eleicao eleicao = LeitorEleicao.criarEleicao(caminhoArquivoCandidatos, cargo);
         
         Map<Integer, Candidato> candidatos = eleicao.getCandidatos();
         Map<Integer, Partido> partidos = eleicao.getPartidos();
         
 
-        eleicao.processaVotacao(leitorEleicao.criarVotacao());
+        eleicao.processaVotacao(LeitorVotacao.criarVotacao(caminhoArquivoVotacao, cargo));
         
         RelatoriosEleicao r = new RelatoriosEleicao(candidatos, partidos, cargo, data);
         System.out.println(r.numeroDeVagasEleicao());

@@ -126,7 +126,7 @@ public class RelatoriosEleicao {
 
         for (Partido p : partidosOrdenados) {
             List<Candidato> candidatosPartido = p.getCandidatos().stream()
-                    .filter(candidato -> candidato.isDeferido()) // TODO: a especificacao pode estar errada
+                    .filter(candidato -> candidato.isDeferido()) 
                     .sorted(new CandidatoComparador())
                     .collect(Collectors.toList());
 

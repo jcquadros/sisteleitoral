@@ -63,6 +63,9 @@ public class Partido implements Comparable<Partido> {
 
     @Override
     public int compareTo(Partido o) {
+        if (o == null)
+            throw new NullPointerException("Partido não pode ser nulo");
+
         if (this.votosLegenda + this.votosNominais != o.votosLegenda + o.votosNominais) {
             return (o.votosLegenda + o.votosNominais) - (this.votosLegenda + this.votosNominais);
         }

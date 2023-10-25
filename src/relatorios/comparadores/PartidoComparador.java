@@ -9,6 +9,8 @@ public class PartidoComparador implements Comparator<Partido> {
 
     @Override
     public int compare(Partido o1, Partido o2) {
+        if (o1 == null || o2 == null)
+            throw new NullPointerException("Partido não pode ser nulo");
 
         Set<Candidato> candidatos1 = o1.getCandidatos();
         Set<Candidato> candidatos2 = o2.getCandidatos();

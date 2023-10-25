@@ -12,26 +12,26 @@ import entidade.Candidato;
 import entidade.Partido;
 import enums.Genero;
 import enums.TipoDestinoVotos;
+import exceptions.LeituraDeArquivoException;
 
+/**
+ * A classe LeitorEleicao é responsável por ler dados relacionados a eleições de arquivos e criar um objeto de eleição.
+ */
 public class LeitorEleicao {
-    String caminhoCandidatos;
-    String caminhoVotos;
-    int cargo;
+    
+   
+    private LeitorEleicao(){}
 
-    public LeitorEleicao(String caminhoCandidatos, String caminhoVotos, int cargo) {
-        this.caminhoCandidatos = caminhoCandidatos;
-        this.caminhoVotos = caminhoVotos;
-        this.cargo = cargo;
-    }
-
-    public Eleicao criarEleicao() {
+    
+    static public Eleicao criarEleicao(String caminhoCandidatos, int cargo) {
         Map<Integer, Partido> partidos = new TreeMap<Integer, Partido>();
         Map<Integer, Candidato> candidatos = new TreeMap<Integer, Candidato>();
 
-        try {
-            FileInputStream f = new FileInputStream(this.caminhoCandidatos);
-            Scanner scanner = new Scanner(f, "ISO-8859-1");
+        try{
 
+            FileInputStream f = new FileInputStream(caminhoCandidatos);
+            Scanner scanner = new Scanner(f, "ISO-8859-1");
+            
             scanner.nextLine(); // ignora primeira linha
             while (scanner.hasNextLine()) {
                 String linha[] = scanner.nextLine().split(";");
@@ -48,19 +48,20 @@ public class LeitorEleicao {
                 linha[56] = linha[56].substring(1, linha[56].length() - 1);
                 linha[42] = linha[42].substring(1, linha[42].length() - 1);
 
+        
                 // partido
                 int nPartido = Integer.parseInt(linha[27]);
                 String nomePartido = linha[28];
                 int nFedPartido = Integer.parseInt(linha[30]);
-
+                
                 if (!partidos.containsKey(nPartido)) {
                     partidos.put(nPartido, new Partido(nPartido, nomePartido, nFedPartido));
                 }
-
+                
                 Partido partido = (Partido) partidos.get(nPartido);
 
                 if (cargo == Integer.parseInt(linha[13])) {
-
+                    
                     // candidato
                     int nCandidato = Integer.parseInt(linha[16]);
                     String nomeCandidato = linha[18];
@@ -68,61 +69,27 @@ public class LeitorEleicao {
                     boolean eleito = Integer.parseInt(linha[56]) == 2 || Integer.parseInt(linha[56]) == 3;
                     Genero genero = Genero.getGenero(Integer.parseInt(linha[45]));
                     TipoDestinoVotos tipoDstVts = TipoDestinoVotos.getTipoDestinoVotos(linha[67]);
-
-                    LocalDate dataNasc = linha[42].equals("") ? null
-                            : LocalDate.parse(linha[42], DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-
-                    candidatos.put(nCandidato, new Candidato(nCandidato, nomeCandidato, partido, deferido, eleito,
-                            genero, tipoDstVts, dataNasc));
-                }
-
-            }
-            scanner.close();
-        } catch (NumberFormatException e) {
-            System.out.println("Erro ao converter um numero durante a criação da eleicao");
-        } catch (IOException e) {
-            System.out.println("Erro ao ler o arquivo de candidatos");
-        }
-
-        return new Eleicao(candidatos, partidos);
-    }
-
-    public Map<Integer, Integer> criarVotacao() {
-        TreeMap<Integer, Integer> votos = new TreeMap<>();
-        try {
-            FileInputStream f = new FileInputStream(this.caminhoVotos);
-            Scanner scanner = new Scanner(f, "ISO-8859-1");
-            scanner.nextLine(); // ignora primeira linha
-
-            while (scanner.hasNextLine()) {
-                String linha[] = scanner.nextLine().split(";");
-
-                if (this.cargo == Integer.parseInt(linha[17].substring(1, linha[17].length() - 1))) {
-
-                    int numeroCandidato = Integer.parseInt(linha[19].substring(1, linha[19].length() - 1));
-                    int quantidadeVotos = Integer.parseInt(linha[21].substring(1, linha[21].length() - 1));
-
-                    if (numeroCandidato == 95 || numeroCandidato == 96 || numeroCandidato == 97
-                            || numeroCandidato == 98) {
+                    
+                    if(!deferido && tipoDstVts != TipoDestinoVotos.VALIDO_LEGENDA){
                         continue;
                     }
-
-                    if (!votos.containsKey(numeroCandidato)) {
-                        votos.put(numeroCandidato, quantidadeVotos);
-                    } else {
-                        votos.put(numeroCandidato, votos.get(numeroCandidato) + quantidadeVotos);
-                    }
+                    
+                    LocalDate dataNasc = linha[42].equals("") ? null
+                    : LocalDate.parse(linha[42], DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                    
+                    candidatos.put(nCandidato, new Candidato(nCandidato, nomeCandidato, partido, deferido, eleito,
+                    genero, tipoDstVts, dataNasc));
                 }
 
             }
             scanner.close();
 
-        } catch (NumberFormatException e) {
-            System.out.println("Erro ao converter um numero durante a criação da votação");
-        } catch (Exception e) {
-            System.out.println("Erro ao ler arquivo de votos");
+        }catch(NumberFormatException e){
+            throw new LeituraDeArquivoException("Erro ao converter um numero durante a criação da eleição", e);
+        }catch(IOException e){
+            throw new LeituraDeArquivoException("Erro ao ler arquivo de candidatos", e);
         }
-        return votos;
-    }
-
+          
+            return new Eleicao(candidatos, partidos);
+        }
 }
