@@ -21,8 +21,8 @@ public class Eleicao {
      * @param partidos os partidos participantes na eleição
      */
     public Eleicao(Map<Integer, Candidato> candidatos, Map<Integer, Partido> partidos) {
-        this.candidatos = candidatos;
-        this.partidos = partidos;
+        this.candidatos = new TreeMap<>(candidatos);
+        this.partidos = new TreeMap<>(partidos);
     }
 
     /**
@@ -57,19 +57,14 @@ public class Eleicao {
                 Candidato candidato = candidatos.get(numero);
                 if (candidato.getTipoDestinoVotos() == TipoDestinoVotos.VALIDO_LEGENDA) {
                     candidato.getPartido().addVotosLegenda(numeroVotos);
-                } else { // o candidato já é deferido nesse caso
+                } else if (candidato.isDeferido()) {
                     candidato.addVotosNominais(numeroVotos);
                     candidato.getPartido().addVotosNominais(numeroVotos);
                 }
-
             } else if (partidos.containsKey(numero)) {
                 Partido partido = partidos.get(numero);
                 partido.addVotosLegenda(numeroVotos);
-
-            } 
-
+            }
         }
-
     }
-
 }

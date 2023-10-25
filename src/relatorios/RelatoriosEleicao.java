@@ -14,12 +14,23 @@ import enums.Genero;
 import relatorios.comparadores.CandidatoComparador;
 import relatorios.comparadores.PartidoComparador;
 
+/**
+ * Esta classe fornece vários relatórios relacionados a uma eleição.
+ */
 public class RelatoriosEleicao {
     private List<Candidato> candidatos;
     private List<Partido> partidos;
     private int cargo;
     private LocalDate dataEleicao;
 
+    /**
+     * Cria uma instância de RelatoriosEleicao com os candidatos, partidos, cargo e data da eleição especificados.
+     *
+     * @param candidatos   Os candidatos da eleição
+     * @param partidos     Os partidos da eleição
+     * @param cargo        O cargo em disputa
+     * @param dataEleicao  A data da eleição
+     */
     public RelatoriosEleicao(Map<Integer, Candidato> candidatos, Map<Integer, Partido> partidos, int cargo,
             LocalDate dataEleicao) {
         this.candidatos = candidatos.values().stream().sorted(Comparable::compareTo).collect(Collectors.toList());
@@ -28,14 +39,29 @@ public class RelatoriosEleicao {
         this.dataEleicao = dataEleicao;
     }
 
+    /**
+     * Retorna o número de vagas para o cargo em disputa.
+     *
+     * @return O número de vagas
+     */
     private int numeroDeVagas() {
         return (int) candidatos.stream().filter(candidato -> candidato.isEleito()).count();
     }
 
+    /**
+     * Retorna uma string que descreve o número de vagas na eleição.
+     *
+     * @return A descrição do número de vagas
+     */
     public String numeroDeVagasEleicao() {
         return "Número de vagas: " + numeroDeVagas() + "\n";
     }
 
+    /**
+     * Retorna a lista de candidatos eleitos no cargo especificado.
+     *
+     * @return A lista de candidatos eleitos
+     */
     public String candidatosEleitos() {
         String response = this.cargo == 6 ? "Deputados federais eleitos:\n" : "Deputados estaduais eleitos:\n";
         int i = 0;
@@ -50,6 +76,11 @@ public class RelatoriosEleicao {
         return response;
     }
 
+    /**
+     * Retorna a lista de candidatos mais votados, respeitando o número de vagas.
+     *
+     * @return A lista de candidatos mais votados
+     */
     public String candidatosMaisVotados() {
         String response = "Candidatos mais votados (em ordem decrescente de votação e respeitando número de vagas):\n";
         int i = 0;
@@ -65,6 +96,11 @@ public class RelatoriosEleicao {
         return response;
     }
 
+    /**
+     * Retorna a lista de candidatos que não foram eleitos mas teriam sido em um sistema majoritário.
+     *
+     * @return A lista de candidatos não eleitos majoritariamente
+     */
     public String candidatosNaoEleitosEleitosMajoritariamente() {
         String response = "Teriam sido eleitos se a votação fosse majoritária, e não foram eleitos:\n";
         response += "(com sua posição no ranking de mais votados)\n";
@@ -79,6 +115,11 @@ public class RelatoriosEleicao {
         return response;
     }
 
+    /**
+     * Retorna a lista de candidatos eleitos que se beneficiaram do sistema proporcional.
+     *
+     * @return A lista de candidatos eleitos no sistema proporcional
+     */
     public String candidatosEleitosNaoEleitosMajoritariamente() {
         String response = "Eleitos, que se beneficiaram do sistema proporcional:\n";
         response += "(com sua posição no ranking de mais votados)\n";
@@ -91,6 +132,11 @@ public class RelatoriosEleicao {
         return response;
     }
 
+    /**
+     * Retorna a votação de cada partido e o número de candidatos eleitos.
+     *
+     * @return A votação de cada partido e o número de candidatos eleitos
+     */
     public String votacaoPartidos() {
         NumberFormat nf = NumberFormat.getInstance(new Locale("pt", "BR"));
         String response = "Votação dos partidos e número de candidatos eleitos:\n";
@@ -114,6 +160,11 @@ public class RelatoriosEleicao {
         return response;
     }
 
+    /**
+     * Retorna os primeiros e últimos colocados de cada partido.
+     *
+     * @return Os primeiros e últimos colocados de cada partido
+     */
     public String primeiroUltimoColocadosPorPartido() {
         NumberFormat nf = NumberFormat.getInstance(new Locale("pt", "BR"));
         String response = "Primeiro e último colocados de cada partido:\n";
@@ -145,6 +196,11 @@ public class RelatoriosEleicao {
         return response;
     }
 
+    /**
+     * Retorna a distribuição dos candidatos eleitos por faixa etária.
+     *
+     * @return A distribuição dos candidatos eleitos por faixa etária
+     */
     public String eleitosPorFaixaEtaria() {
         NumberFormat nf = NumberFormat.getPercentInstance(new Locale("pt", "BR"));
         nf.setMinimumFractionDigits(2);
@@ -190,12 +246,13 @@ public class RelatoriosEleicao {
         return response;
     }
 
+    /**
+     * Retorna a distribuição dos candidatos eleitos por gênero.
+     *
+     * @return A distribuição dos candidatos eleitos por gênero
+     */
     public String eleitosPorGenero() {
-        /*
-         * Eleitos, por gênero:
-         * Feminino: 4 (13,33%)
-         * Masculino: 26 (86,67%)
-         */
+        
         NumberFormat nf = NumberFormat.getPercentInstance(new Locale("pt", "BR"));
         nf.setMinimumFractionDigits(2);
 
@@ -223,12 +280,13 @@ public class RelatoriosEleicao {
         return response;
     }
 
+    /**
+     * Retorna o total de votos válidos, votos nominais e votos de legenda na eleição.
+     *
+     * @return O total de votos válidos, votos nominais e votos de legenda
+     */
     public String totalDeVotos() {
-        /*
-         * Total de votos válidos: 2.077.274
-         * Total de votos nominais: 1.958.071 (94,26%)
-         * Total de votos de legenda: 119.203 (5,74%)
-         */
+        
         NumberFormat percentNf = NumberFormat.getPercentInstance(new Locale("pt", "BR"));
         NumberFormat intNf = NumberFormat.getInstance(new Locale("pt", "BR"));
         percentNf.setMinimumFractionDigits(2);
