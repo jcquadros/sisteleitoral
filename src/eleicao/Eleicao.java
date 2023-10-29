@@ -1,5 +1,6 @@
 package eleicao;
 
+import java.time.LocalDate;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -13,6 +14,8 @@ import enums.TipoDestinoVotos;
 public class Eleicao {
     private Map<Integer, Candidato> candidatos;
     private Map<Integer, Partido> partidos;
+    private int cargo;
+    private LocalDate data;
 
     /**
      * Constrói uma eleição com os candidatos e partidos especificados.
@@ -20,9 +23,11 @@ public class Eleicao {
      * @param candidatos os candidatos participantes na eleição
      * @param partidos os partidos participantes na eleição
      */
-    public Eleicao(Map<Integer, Candidato> candidatos, Map<Integer, Partido> partidos) {
+    public Eleicao(Map<Integer, Candidato> candidatos, Map<Integer, Partido> partidos, int cargo, LocalDate data) {
         this.candidatos = new TreeMap<>(candidatos);
         this.partidos = new TreeMap<>(partidos);
+        this.cargo = cargo;
+        this.data = data;
     }
 
     /**
@@ -41,6 +46,24 @@ public class Eleicao {
      */
     public Map<Integer, Partido> getPartidos() {
         return new TreeMap<>(partidos);
+    }
+
+    /**
+     * Retorna o cargo da eleição.
+     *
+     * @return o cargo da eleição
+     */
+    public int getCargo() {
+        return cargo;
+    }
+
+    /**
+     * Retorna a data da eleição.
+     *
+     * @return a data da eleição
+     */
+    public LocalDate getData() {
+        return data;
     }
 
     /**

@@ -8,6 +8,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import eleicao.Eleicao;
 import entidade.Candidato;
 import entidade.Partido;
 import enums.Genero;
@@ -23,20 +24,16 @@ public class RelatoriosEleicao {
     private int cargo;
     private LocalDate dataEleicao;
 
-    /**
-     * Cria uma instância de RelatoriosEleicao com os candidatos, partidos, cargo e data da eleição especificados.
-     *
-     * @param candidatos   Os candidatos da eleição
-     * @param partidos     Os partidos da eleição
-     * @param cargo        O cargo em disputa
-     * @param dataEleicao  A data da eleição
-     */
-    public RelatoriosEleicao(Map<Integer, Candidato> candidatos, Map<Integer, Partido> partidos, int cargo,
-            LocalDate dataEleicao) {
-        this.candidatos = candidatos.values().stream().sorted(Comparable::compareTo).collect(Collectors.toList());
-        this.partidos = partidos.values().stream().sorted(Comparable::compareTo).collect(Collectors.toList());
-        this.cargo = cargo;
-        this.dataEleicao = dataEleicao;
+    /*
+    * Constrói um objeto RelatoriosEleicao a partir de uma eleição.
+    *
+    * @param eleicao A eleição
+    */
+    public RelatoriosEleicao(Eleicao   eleicao) {
+        this.candidatos = eleicao.getCandidatos().values().stream().sorted(Comparable::compareTo).collect(Collectors.toList());
+        this.partidos = eleicao.getPartidos().values().stream().sorted(Comparable::compareTo).collect(Collectors.toList());
+        this.cargo = eleicao.getCargo();
+        this.dataEleicao = eleicao.getData();
     }
 
     /**

@@ -39,13 +39,10 @@ public class Main {
         String caminhoArquivoVotacao = args[2];
         LocalDate data = LocalDate.parse(args[3], DateTimeFormatter.ofPattern("dd/MM/yyyy"));;
 
-        Eleicao eleicao = LeitorEleicao.criarEleicao(caminhoArquivoCandidatos, cargo);
-        Map<Integer, Candidato> candidatos = eleicao.getCandidatos();
-        Map<Integer, Partido> partidos = eleicao.getPartidos();
-
+        Eleicao eleicao = LeitorEleicao.criarEleicao(caminhoArquivoCandidatos, cargo, data);
         eleicao.processaVotacao(LeitorVotacao.criarVotacao(caminhoArquivoVotacao, cargo));
 
-        RelatoriosEleicao r = new RelatoriosEleicao(candidatos, partidos, cargo, data);
+        RelatoriosEleicao r = new RelatoriosEleicao(eleicao);
         printRelatorios(r);
     }
 

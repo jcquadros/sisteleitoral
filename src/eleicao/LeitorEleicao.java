@@ -39,10 +39,11 @@ public class LeitorEleicao {
      *
      * @param caminhoCandidatos O caminho para o arquivo de candidatos.
      * @param cargo O identificador do cargo da eleição.
-     * @return Um objeto Eleicao com candidatos e partidos.
+     * @param data A data da eleição.
+     * @return Um objeto Eleicao com candidatos , partidos cargo e data.
      * @throws LeituraDeArquivoException Se ocorrer um erro durante a leitura do arquivo.
      */
-    public static Eleicao criarEleicao(String caminhoCandidatos, int cargo) {
+    public static Eleicao criarEleicao(String caminhoCandidatos, int cargo, LocalDate data) {
         Map<Integer, Partido> partidos = new TreeMap<>();
         Map<Integer, Candidato> candidatos = new TreeMap<>();
 
@@ -60,7 +61,7 @@ public class LeitorEleicao {
             throw new LeituraDeArquivoException("Erro ao ler arquivo de candidatos", e);
         }
 
-        return new Eleicao(candidatos, partidos);
+        return new Eleicao(candidatos, partidos, cargo, data);
     }
 
     private static void processarLinhaCandidato(String[] linha, Map<Integer, Partido> partidos,
